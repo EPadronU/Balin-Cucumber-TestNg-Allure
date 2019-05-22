@@ -18,7 +18,7 @@ plugins {
 /* ***************************************************************************/
 dependencies {
     compile(kotlin("stdlib-jdk8"))
-    compile("com.github.epadronu:balin:0.4.0")
+    compile("com.github.epadronu:balin:0.4.1")
     compile("org.slf4j:slf4j-api:1.7.26")
 
     testCompile("org.seleniumhq.selenium:selenium-chrome-driver:3.141.59")
