@@ -1,0 +1,21 @@
+# Gradle
+.gradle
+
+# Idea
+.idea
+*.iml
+
+# Compiled code
+build/
+out/
+
+# Generated code
+/src/generated
+gradle.ktscfg.xml
+
+# Allure
+.allure/
+allure-results/
+
+# Detekt
+detekt-reports/
