@@ -31,13 +31,14 @@ class HomePage(browser: Browser) : Page(browser) {
 
     companion object {
         private const val SEARCH_INPUT_SELECTOR = "input[placeholder='Search GitHub']"
-
     }
 
     override val url = "https://github.com/"
 
     override val at = at {
-        title == "The world’s leading software development platform · GitHub"
+        assert(title == "The world’s leading software development platform · GitHub") {
+            "The actual title was `$title`"
+        }
     }
 
     private val searchInput by lazy {

@@ -15,8 +15,8 @@
  *****************************************************************************/
 
 /* ***************************************************************************/
-import cucumber.api.CucumberOptions
-import cucumber.api.testng.AbstractTestNGCucumberTests
+import io.cucumber.testng.AbstractTestNGCucumberTests
+import io.cucumber.testng.CucumberOptions
 import org.testng.ITestContext
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.DataProvider

@@ -9,8 +9,8 @@ version = "1.0-SNAPSHOT"
 
 /* ***************************************************************************/
 plugins {
-    kotlin("jvm").version("1.3.21")
-    id("io.qameta.allure").version("2.7.0")
+    kotlin("jvm").version("1.3.50")
+    id("io.qameta.allure").version("2.8.1")
     id("com.energizedwork.webdriver-binaries").version("1.4")
 }
 /* ***************************************************************************/
@@ -18,14 +18,14 @@ plugins {
 /* ***************************************************************************/
 dependencies {
     compile(kotlin("stdlib-jdk8"))
-    compile("com.github.epadronu:balin:0.4.1")
-    compile("org.slf4j:slf4j-api:1.7.26")
+    compile("com.github.epadronu:balin:0.4.2")
+    compile("org.slf4j:slf4j-api:1.7.28")
 
     testCompile("org.seleniumhq.selenium:selenium-chrome-driver:3.141.59")
-    testCompile("org.testng:testng:6.14.3")
-    testCompile("io.cucumber:cucumber-java:4.3.1")
-    testCompile("io.cucumber:cucumber-testng:4.3.1")
-    testCompile("io.qameta.allure:allure-cucumber4-jvm:2.11.0")
+    testCompile("org.testng:testng:7.0.0")
+    testCompile("io.cucumber:cucumber-java:4.7.2")
+    testCompile("io.cucumber:cucumber-testng:4.7.2")
+    testCompile("io.qameta.allure:allure-cucumber4-jvm:2.12.1")
 
     testRuntime("ch.qos.logback:logback-classic:1.2.3")
 }
@@ -40,17 +40,17 @@ repositories {
 allure {
     autoconfigure = true
 
-    version = "2.11.0"
+    version = "2.12.1"
 
     useTestNG {
-        version = "2.11.0"
+        version = "2.12.1"
     }
 }
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 webdriverBinaries {
-    chromedriver = "2.46"
+    chromedriver = "76.0.3809.126"
     geckodriver = "0.24.0"
 }
 /* ***************************************************************************/

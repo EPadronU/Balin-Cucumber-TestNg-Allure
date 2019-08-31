@@ -19,9 +19,9 @@ package steps.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import cucumber.api.Scenario
-import cucumber.api.java.After
-import cucumber.api.java.Before
+import io.cucumber.core.api.Scenario
+import io.cucumber.java.After
+import io.cucumber.java.Before
 import io.qameta.allure.Allure
 import io.qameta.allure.model.Parameter
 import org.openqa.selenium.Dimension
@@ -71,9 +71,9 @@ class Hooks : StepDefinition() {
     @After
     fun `Add attachments on failure and quit WebDriver`(scenario: Scenario) {
         if (scenario.isFailed) {
-            Allure.addAttachment("Page's URL", driver.currentUrl)
-            Allure.addAttachment("Page's title", driver.title)
-            Allure.addAttachment("Page's source code", "text/html", driver.pageSource, "html")
+            Allure.addAttachment("Page's URL", driver.currentUrl as String)
+            Allure.addAttachment("Page's title", driver.title as String)
+            Allure.addAttachment("Page's source code", "text/html", driver.pageSource as String, "html")
             Allure.addAttachment("View when the failure was produced", takeScreenshots().inputStream())
         }
 
