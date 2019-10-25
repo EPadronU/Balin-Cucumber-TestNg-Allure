@@ -26,11 +26,11 @@ import org.testng.annotations.Test
 /* ***************************************************************************/
 @Test
 @CucumberOptions(
-        dryRun = false,
-        monochrome = true,
-        plugin = ["pretty"],
-        features = ["src/test/resources/features"],
-        glue = ["steps"]
+    dryRun = false,
+    monochrome = true,
+    plugin = ["pretty"],
+    features = ["src/test/resources/features"],
+    glue = [""]
 )
 class CucumberRunner : AbstractTestNGCucumberTests() {
 

@@ -21,27 +21,21 @@ package pages
 /* ***************************************************************************/
 import com.github.epadronu.balin.core.Browser
 import com.github.epadronu.balin.core.Page
-import com.github.epadronu.balin.extensions.`$`
-import components.SearchBar
+import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-class HomePage(browser: Browser) : Page(browser) {
+class RepositoryPage(browser: Browser) : Page(browser) {
 
     companion object {
-        private const val SEARCH_INPUT_SELECTOR = "input[placeholder='Search GitHub']"
+        private const val TITLE = "h1.public"
     }
 
-    override val url = "https://github.com/"
-
-    override val at = at {
-        assert(title == "The world’s leading software development platform · GitHub") {
-            "The actual title was `$title`"
-        }
-    }
-
-    val searchBar by lazy {
-        `$`(SEARCH_INPUT_SELECTOR, 0).component(::SearchBar)
+    val title: String by lazy {
+        waitFor {
+            presenceOfElementLocated(By.cssSelector(TITLE))
+        }.text
     }
 }
 /* ***************************************************************************/

@@ -14,13 +14,15 @@
 # limitations under the License.
 ##############################################################################
 
-Feature: Example feature
+@functional
+Feature: Repositories' page
 
-  Scenario Outline: Looking for <repo name> should be successful
+  Scenario Outline: When open in a new tab, the repository's title for <repo name> should be the expected one
     Given I navigate to the home page
-    When I search for <repo name>
-    Then I should find <repo name> among the results
+    When I search for <search term>
+    And I open the repository's page for <repo name> in a new tab
+    Then the repository's title for <repo name> should be the expected one
     Examples:
-      | repo name                          |
-      | kotlin                             |
-      | balin                              |
+      | search term | repo name        |
+      | kotlin      | JetBrains/kotlin |
+      | balin       | EPadronU/balin   |

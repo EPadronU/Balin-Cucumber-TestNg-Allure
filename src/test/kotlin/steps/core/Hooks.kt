@@ -19,16 +19,13 @@ package steps.core
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import utils.WebDriverBuilderFactory
 import io.cucumber.core.api.Scenario
 import io.cucumber.java.After
 import io.cucumber.java.Before
 import io.qameta.allure.Allure
 import io.qameta.allure.model.Parameter
 import org.openqa.selenium.Dimension
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.firefox.FirefoxDriver
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -36,25 +33,10 @@ class Hooks : StepDefinition() {
 
     companion object {
         @JvmStatic
-        private val targetBrowser = System
+        private val targetWebDriver = System
             .getenv()
-            .getOrDefault("BROWSER", "firefox")
+            .getOrDefault("WEBDRIVER", "firefox")
             .toLowerCase()
-
-        @JvmStatic
-        private fun produceWebDriver(): WebDriver = when (targetBrowser) {
-            "chrome" -> {
-                val options = ChromeOptions().apply {
-                    addArguments("window-size=1024,768");
-                }
-
-                ChromeDriver(options)
-            }
-            "firefox" -> FirefoxDriver().apply {
-                manage().window().size = Dimension(1024, 768)
-            }
-            else -> throw Exception("Driver not supported")
-        }
     }
 
     @Before
@@ -62,10 +44,13 @@ class Hooks : StepDefinition() {
         Allure.getLifecycle().updateTestCase { testResult ->
             testResult.name = scenario.name
             testResult.parameters.clear()
-            testResult.parameters.add(Parameter().setName("Browser").setValue(targetBrowser.capitalize()))
+            testResult.parameters.add(Parameter().setName("Browser").setValue(targetWebDriver.capitalize()))
         }
 
-        driver = produceWebDriver()
+        driver = WebDriverBuilderFactory
+            .createFromName(targetWebDriver)
+            .windowSize(Dimension(1024, 768))
+            .build()
     }
 
     @After
@@ -73,7 +58,6 @@ class Hooks : StepDefinition() {
         if (scenario.isFailed) {
             Allure.addAttachment("Page's URL", driver.currentUrl as String)
             Allure.addAttachment("Page's title", driver.title as String)
-            Allure.addAttachment("Page's source code", "text/html", driver.pageSource as String, "html")
             Allure.addAttachment("View when the failure was produced", takeScreenshots().inputStream())
         }
 

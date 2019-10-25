@@ -15,33 +15,33 @@
  *****************************************************************************/
 
 /* ***************************************************************************/
-package pages
+package components
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.github.epadronu.balin.core.Browser
+import com.github.epadronu.balin.core.Component
 import com.github.epadronu.balin.core.Page
-import com.github.epadronu.balin.extensions.`$`
-import components.SearchBar
+import pages.SearchResultPage
+import org.openqa.selenium.Keys
+import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.ui.ExpectedConditions
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-class HomePage(browser: Browser) : Page(browser) {
+class SearchBar(page: Page, rootElement: WebElement) : Component(page, rootElement) {
 
-    companion object {
-        private const val SEARCH_INPUT_SELECTOR = "input[placeholder='Search GitHub']"
-    }
-
-    override val url = "https://github.com/"
-
-    override val at = at {
-        assert(title == "The world’s leading software development platform · GitHub") {
-            "The actual title was `$title`"
+    fun search(text: String): SearchResultPage {
+        with(rootElement) {
+            clear()
+            sendKeys(text)
+            sendKeys(Keys.RETURN)
         }
-    }
 
-    val searchBar by lazy {
-        `$`(SEARCH_INPUT_SELECTOR, 0).component(::SearchBar)
+        waitFor {
+            ExpectedConditions.urlContains(text)
+        }
+
+        return browser.at(::SearchResultPage)
     }
 }
 /* ***************************************************************************/

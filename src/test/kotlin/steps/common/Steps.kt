@@ -19,39 +19,58 @@ package steps.common
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import pages.HomePage
+import pages.RepositoryPage
+import pages.SearchResultPage
+import steps.core.StepDefinition
+import utils.withWindow
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 import io.qameta.allure.Attachment
 import io.qameta.allure.Step
-import org.testng.Assert
-import pages.HomePage
-import pages.SearchResultPage
-import steps.core.StepDefinition
+import org.testng.Assert.assertEquals
+import org.testng.Assert.assertTrue
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class Steps : StepDefinition() {
 
-    @Step
-    @Attachment(value = "I navigate to the home page", type = "image/png")
+    @Step("I navigate to the home page")
+    @Attachment("I navigate to the home page", type = "image/png")
     @Given("I navigate to the home page")
     fun `I navigate to the home page`() = drive {
         to(::HomePage)
     }
 
     @Step("I search for {text}")
-    @Attachment(value = "I search for {text}", type = "image/png")
+    @Attachment("I search for {text}", type = "image/png")
     @When("I search for (.*?)")
     fun `I search for {text}`(text: String) = drive {
-        at(::HomePage).search(text)
+        at(::HomePage).searchBar.search(text)
+    }
+
+    @Step("I open the repository's page for {text} in a new tab")
+    @Attachment("I open the repository's page for {text} in a new tab", type = "image/png")
+    @When("I open the repository's page for (.*?) in a new tab")
+    fun `I open the repository's page for {text} in a new tab`(text: String) = drive {
+        at(::SearchResultPage).openRepositoryInNewTab(text)
     }
 
     @Step("I should find {text} among the results")
-    @Attachment(value = "I should find {text} among the results", type = "image/png")
+    @Attachment("I should find {text} among the results", type = "image/png")
     @Then("I should find (.*?) among the results")
     fun `I should find {text} among the results`(text: String) = drive {
-        Assert.assertTrue(at(::SearchResultPage).isResultPresent(text))
+        assertTrue(at(::SearchResultPage).isResultPresent(text))
+    }
+
+    @Step("the repository's title for {text} should be the expected one")
+    @Attachment("the repository's title for {text} should be the expected one", type = "image/png")
+    @Then("the repository's title for (.*?) should be the expected one")
+    fun `the repository's title for {text} should be the expected one`(text: String) = drive {
+        at(::RepositoryPage).withWindow {
+            assertEquals(title, text)
+        }
     }
 }
 /* ***************************************************************************/

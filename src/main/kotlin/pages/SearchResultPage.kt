@@ -21,29 +21,56 @@ package pages
 /* ***************************************************************************/
 import com.github.epadronu.balin.core.Browser
 import com.github.epadronu.balin.core.Page
+import com.github.epadronu.balin.extensions.`$`
+import components.SearchBar
+import utils.presenceOfElementLocated
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions.numberOfElementsToBeMoreThan
-import utils.isPresenceOfElementLocated
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class SearchResultPage(browser: Browser) : Page(browser) {
 
     companion object {
-        private const val REPO_LIST_ITEM_NAMES_SELECTOR = "//*[contains(@class, 'repo-list-item')]//h3//em"
+        private const val REPO_LIST_ITEM_LINKS_SELECTOR = "//*[contains(@class, 'repo-list-item')]//h3//a"
+
+        private const val SEARCH_INPUT_SELECTOR = "input[placeholder='Search GitHub']"
     }
 
     override val at = at {
         waitFor {
-            isPresenceOfElementLocated(By.className("codesearch-results"))
+            presenceOfElementLocated(By.className("codesearch-results"))
         }
     }
 
-    private val repoListItemNames
+    val searchBar by lazy {
+        `$`(SEARCH_INPUT_SELECTOR, 0).component(::SearchBar)
+    }
+
+    private val repoListItemLinks
         get() = waitFor {
-            numberOfElementsToBeMoreThan(By.xpath(REPO_LIST_ITEM_NAMES_SELECTOR), 0)
+            numberOfElementsToBeMoreThan(By.xpath(REPO_LIST_ITEM_LINKS_SELECTOR), 0)
         }
 
-    fun isResultPresent(text: String) = repoListItemNames.any { it.text == text }
+    fun isResultPresent(text: String) = repoListItemLinks.any { it.text == text }
+
+    fun openRepositoryInNewTab(text: String): RepositoryPage {
+        val link = repoListItemLinks.first { it.text == text }
+
+        /* Sadly, this is broken
+        Actions(driver)
+            .keyDown(Keys.LEFT_CONTROL)
+            .click(link)
+            .keyUp(Keys.LEFT_CONTROL)
+            .perform()
+        */
+
+        /* We need to introduce this tiny hack */
+        js(link) {
+            "arguments[0].target = '_blank';"
+        }
+
+        return link.click(::RepositoryPage)
+    }
 }
 /* ***************************************************************************/

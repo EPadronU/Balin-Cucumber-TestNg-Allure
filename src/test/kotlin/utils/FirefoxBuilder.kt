@@ -15,33 +15,28 @@
  *****************************************************************************/
 
 /* ***************************************************************************/
-package pages
+package utils
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import com.github.epadronu.balin.core.Browser
-import com.github.epadronu.balin.core.Page
-import com.github.epadronu.balin.extensions.`$`
-import components.SearchBar
+import org.openqa.selenium.Dimension
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.firefox.FirefoxDriver
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-class HomePage(browser: Browser) : Page(browser) {
+class FirefoxBuilder : WebDriverBuilder {
 
-    companion object {
-        private const val SEARCH_INPUT_SELECTOR = "input[placeholder='Search GitHub']"
+    private var windowSize: Dimension? = null
+
+    override fun windowSize(dimension: Dimension): WebDriverBuilder {
+        windowSize = dimension
+
+        return this
     }
 
-    override val url = "https://github.com/"
-
-    override val at = at {
-        assert(title == "The world’s leading software development platform · GitHub") {
-            "The actual title was `$title`"
-        }
-    }
-
-    val searchBar by lazy {
-        `$`(SEARCH_INPUT_SELECTOR, 0).component(::SearchBar)
+    override fun build(): WebDriver = FirefoxDriver().apply {
+        manage().window().size = Dimension(1024, 768)
     }
 }
 /* ***************************************************************************/

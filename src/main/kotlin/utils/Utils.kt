@@ -19,13 +19,17 @@ package utils
 /* ***************************************************************************/
 
 /* ***************************************************************************/
+import com.github.epadronu.balin.core.Browser
+import com.github.epadronu.balin.core.Page
+import com.github.epadronu.balin.core.withWindow
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedCondition
 import kotlin.reflect.KProperty
+import kotlin.reflect.full.primaryConstructor
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-fun isPresenceOfElementLocated(by: By) = ExpectedCondition { webDriver ->
+fun presenceOfElementLocated(by: By) = ExpectedCondition { webDriver ->
     webDriver?.findElement(by)?.isDisplayed ?: false
 }
 
@@ -36,5 +40,13 @@ class ThreadLocalDelegate<T>(private val delegate: ThreadLocal<T> = ThreadLocal<
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T = delegate.get()
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T): Unit = delegate.set(value)
+}
+
+// Should be part of Balin very soon
+inline fun <reified T : Page> T.withWindow(nameOrHandle: String? = null, windowContext: T.() -> Unit) {
+    this.browser.withWindow(nameOrHandle) {
+        @Suppress("UNCHECKED_CAST")
+        windowContext(this@withWindow.browser.at(T::class.primaryConstructor as (Browser) -> T))
+    }
 }
 /* ***************************************************************************/
