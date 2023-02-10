@@ -38,7 +38,7 @@ class SearchBar(page: Page, rootElement: WebElement) : Component(page, rootEleme
         }
 
         waitFor {
-            ExpectedConditions.urlContains(text)
+            ExpectedConditions.urlContains(text.replace(" ", "+"))
         }
 
         return browser.at(::SearchResultPage)
