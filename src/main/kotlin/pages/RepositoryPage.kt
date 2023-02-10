@@ -29,7 +29,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocate
 class RepositoryPage(browser: Browser) : Page(browser) {
 
     companion object {
-        private const val TITLE = "h1.public"
+        private const val TITLE = "h1.sr-only"
     }
 
     val title: String by lazy {
