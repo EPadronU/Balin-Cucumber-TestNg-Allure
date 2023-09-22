@@ -29,7 +29,7 @@ import components.SearchBar
 class HomePage(browser: Browser) : Page(browser) {
 
     companion object {
-        private const val SEARCH_INPUT_SELECTOR = "input[placeholder='Search GitHub']"
+        private const val SEARCH_INPUT_SELECTOR = "input[id='query-builder-test']"
     }
 
     override val url = "https://github.com/"

@@ -19,11 +19,7 @@ package steps.common
 /* ***************************************************************************/
 
 /* ***************************************************************************/
-import pages.HomePage
-import pages.RepositoryPage
-import pages.SearchResultPage
-import steps.core.StepDefinition
-import utils.withWindow
+import com.github.epadronu.balin.extensions.find
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
@@ -31,6 +27,12 @@ import io.qameta.allure.Attachment
 import io.qameta.allure.Step
 import org.testng.Assert.assertEquals
 import org.testng.Assert.assertTrue
+import pages.HomePage
+import pages.RepositoryPage
+import pages.SearchResultPage
+import steps.core.StepDefinition
+import utils.withWindow
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/
@@ -47,7 +49,9 @@ class Steps : StepDefinition() {
     @Attachment("I search for {text}", type = "image/png")
     @When("I search for (.*?)")
     fun `I search for {text}`(text: String) = drive {
-        at(::HomePage).searchBar.search(text)
+        val page = at(::HomePage)
+        page.find("button[class*='header-search-button']", 0).click()
+        page.searchBar.search(text)
     }
 
     @Step("I open the repository's page for {text} in a new tab")
