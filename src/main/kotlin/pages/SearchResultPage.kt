@@ -32,7 +32,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions.numberOfElementsToBeMor
 class SearchResultPage(browser: Browser) : Page(browser) {
 
     companion object {
-        private const val REPO_LIST_ITEM_LINKS_SELECTOR = "//*[contains(@class, 'repo-list-item')]//h3//a"
+        private const val REPO_LIST_ITEM_LINKS_SELECTOR = "//*[@data-testid='results-list']//h3//a"
 
         private const val SEARCH_INPUT_SELECTOR = "input[placeholder='Search GitHub']"
         private const val SUB_HEADER_SELECTOR = "[data-testid='search-sub-header']"
