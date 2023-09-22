@@ -21,17 +21,29 @@ package components
 /* ***************************************************************************/
 import com.github.epadronu.balin.core.Component
 import com.github.epadronu.balin.core.Page
+import com.github.epadronu.balin.extensions.find
 import pages.SearchResultPage
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions
 /* ***************************************************************************/
 
+private const val SEARCH_INPUT_SELECTOR = "input[id='query-builder-test']"
+private const val OPEN_ACTUAL_SEARCH_BAR_BUTTON = "button[class*='header-search-button']"
+
 /* ***************************************************************************/
 class SearchBar(page: Page, rootElement: WebElement) : Component(page, rootElement) {
 
     fun search(text: String): SearchResultPage {
+        val searchInput: WebElement
+
         with(rootElement) {
+            // GitHub opens another input once you click the "search bar"
+            find(OPEN_ACTUAL_SEARCH_BAR_BUTTON, 0).click()
+            searchInput = find(SEARCH_INPUT_SELECTOR, 0)
+        }
+
+        with(searchInput) {
             clear()
             sendKeys(text)
             sendKeys(Keys.RETURN)

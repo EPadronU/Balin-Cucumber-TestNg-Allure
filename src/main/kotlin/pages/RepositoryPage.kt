@@ -22,20 +22,28 @@ package pages
 import com.github.epadronu.balin.core.Browser
 import com.github.epadronu.balin.core.Page
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated
+import org.openqa.selenium.support.ui.ExpectedConditions.*
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class RepositoryPage(browser: Browser) : Page(browser) {
 
     companion object {
-        private const val TITLE = "h1.public"
+        private const val AUTHOR_LINK = "[itemprop='author']"
+        private const val REPO_NAME_LINK = "[itemprop='name']"
+    }
+
+    private val authorLink by lazy {
+        waitFor { elementToBeClickable((By.cssSelector(AUTHOR_LINK))) }
+    }
+
+    private val repoLink by lazy {
+        waitFor { elementToBeClickable((By.cssSelector(REPO_NAME_LINK))) }
     }
 
     val title: String by lazy {
-        waitFor {
-            presenceOfElementLocated(By.cssSelector(TITLE))
-        }.text
+        "${authorLink.text}/${repoLink.text}"
     }
 }
 /* ***************************************************************************/
