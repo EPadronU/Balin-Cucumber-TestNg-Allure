@@ -21,21 +21,35 @@ package pages
 /* ***************************************************************************/
 import com.github.epadronu.balin.core.Browser
 import com.github.epadronu.balin.core.Page
+import com.github.epadronu.balin.extensions.find
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated
+import org.openqa.selenium.support.ui.ExpectedConditions.*
+
 /* ***************************************************************************/
 
 /* ***************************************************************************/
 class RepositoryPage(browser: Browser) : Page(browser) {
 
     companion object {
-        private const val TITLE = "h1.public"
+        private const val AUTHOR_LINK = "[itemprop='author']"
+        private const val REPO_NAME_LINK = "[itemprop='name']"
+
     }
 
+
     val title: String by lazy {
+
         waitFor {
-            presenceOfElementLocated(By.cssSelector(TITLE))
-        }.text
+            and(
+                visibilityOfElementLocated(By.cssSelector(AUTHOR_LINK)),
+                visibilityOfElementLocated(By.cssSelector(REPO_NAME_LINK))
+            )
+        }
+
+        val author = browser.find(AUTHOR_LINK, 0).text
+        val repo = browser.find(REPO_NAME_LINK, 0).text
+
+        "$author/$repo"
     }
 }
 /* ***************************************************************************/
