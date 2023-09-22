@@ -35,7 +35,7 @@ class HomePage(browser: Browser) : Page(browser) {
     override val url = "https://github.com/"
 
     override val at = at {
-        assert(title == "The world’s leading software development platform · GitHub") {
+        assert(title == "GitHub: Let’s build from here · GitHub") {
             "The actual title was `$title`"
         }
     }
