@@ -49,9 +49,7 @@ class Steps : StepDefinition() {
     @Attachment("I search for {text}", type = "image/png")
     @When("I search for (.*?)")
     fun `I search for {text}`(text: String) = drive {
-        val page = at(::HomePage)
-        page.find("button[class*='header-search-button']", 0).click()
-        page.searchBar.search(text)
+        at(::HomePage).searchBar.search(text)
     }
 
     @Step("I open the repository's page for {text} in a new tab")

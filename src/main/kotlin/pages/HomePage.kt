@@ -29,7 +29,7 @@ import components.SearchBar
 class HomePage(browser: Browser) : Page(browser) {
 
     companion object {
-        private const val SEARCH_INPUT_SELECTOR = "input[id='query-builder-test']"
+        private const val SEARCH_BAR_SELECTOR = "qbsearch-input"
     }
 
     override val url = "https://github.com/"
@@ -41,7 +41,7 @@ class HomePage(browser: Browser) : Page(browser) {
     }
 
     val searchBar by lazy {
-        `$`(SEARCH_INPUT_SELECTOR, 0).component(::SearchBar)
+        `$`(SEARCH_BAR_SELECTOR, 0).component(::SearchBar)
     }
 }
 /* ***************************************************************************/
